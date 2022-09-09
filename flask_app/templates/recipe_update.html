@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap/bootstrap.css')}}">
+    <title>RECIPE | ADD</title>
+</head>
+<body class="bg-dark">
+    <div class="container bg-light p-5 mt-5">
+        <div class="card">
+            <div class="card-header bg-secondary text-dark">
+                <h1>Add a New Recipe!</h1>
+                <p><a class="link-light card-link" href="/recipes">Back to recipes</a></p>
+                <p><a class="link-light card-link" href="/logout">Logout</a></p>
+            </div>
+            <div class="card-body p-3 ">
+                <form action="#" method="post">
+                    <!-- <input type="hidden" name="user_id" value="{{ session['user_id'] }}> -->
+                    <div class="card-group">
+
+                        <div class="card p-3">
+                            <label class="form-label" for="recipe_name">Name</label>
+                            <input class="form-control" type="text" name="recipe_name" value="session['recipe_name']">
+                            
+                            <label class="form-label" for="recipe_description">Description</label>
+                            <textarea class="form-control" name="recipe_description" value="session['recipe_desc']">
+                            </textarea>
+                            
+                            <label class="form-label" for="recipe_instructions">Instructions</label>
+                            <textarea class="form-control" name="recipe_instructions" value="session['recipe_inst']">
+                            </textarea>
+                        </div>
+
+                        <div class="card p-3">
+                            <label class="form-label" for="recipe_cooked_on">Date Cooked</label>
+                            <input class="form-control" type="date" name="recipe_cooked_on" value="">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="recipe_under_30" value="1">
+                                <label class="form-check-label" for="recipe_under_30">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="recipe_under_30" value="0" checked="">
+                                <label class="form-check-label" for="recipe_under_30">No</label>
+                            </div>
+                        </div>  
+                    </div>
+                    
+                    <div class="card-footer">
+                        <input class="btn btn-lg btn-primary" type="submit" value="Update Recipe">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

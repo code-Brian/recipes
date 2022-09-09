@@ -1,47 +1,38 @@
-# m_flask_template
-<p>This is a modularized flask template, ready to go.</p>
-<p>Template credit and thanks to: rteet702</p>
+# RECIPES
 
-
-## BASHRC
-<p>This template is used with bashrc code to clone the template into a new project directory. 
-  To get the full benefit of this template, add the following code snippets to your bashrc file:</p>
-  
-```bash
-function full_flask(){
-    git clone https://github.com/code-Brian/m_flask_template.git && echo "------------------- GIT REPO CLONED -------------------"
-    mv m_flask_template $1
-    cd $1
-    echo "------------------- CHANGING INTO PROJECT DIRECTORY -------------------"
-    rm -rf .git
-    echo "------------------- GIT FILE DELETED -------------------"
-    pipenv install flask pymysql
-    echo "-------------------------FLASK / PYMYSQL  INSTALLED-------------------------"
-    git init
-    git branch -M main
-    git add .
-    git commit -m '1: init commit'
-    git checkout -b dev
-    echo "-------------------------GIT REPO CREATED AND INIT -------------------------"
-    echo "-------------------------COMMIT DONE, CHECKED OUT  -------------------------"
-    echo "-------------------------DEVELOPMENT BRANCH 'dev'  -------------------------"
-    code .
-    echo "-------------------------OPENING PROJECT IN VSCODE -------------------------"
-} 
-export -f full_flask
-```
-In order to generate the template using this method, after updating your .bashrc file, run the command:
-```bash
-full_flask some-project-name
-```
-
-## Git
-
-This project also works perfectly fine just by cloning the git repository. 
-A few notes:
-- This repository is intended to be a template, so everything is a placeholder. 
-- In order to create your own repository for the project you are working on, you will likely need to delete .git inside the cloned repository.
-
-
-## Lastly
-<p> I hope this template is helpful. Please ping myself or Robert (https://github.com/rteet702) if there are any questions!</p>
+## ToDo:
+## LOGIN | REGISTRATION 
+### Registration Validations
+- [ ] 1 First and Last name must be at least 2 characters
+- [ ] 2 Email must have valid email format
+- [ ] 3 Password and Confirm Password must match
+- [ ] 4 User must not already exist in the DB
+### Login Validations
+- [ ] 1 Email must already exist in the database
+    -[ ] 1.1 Password must be checked against the hashed password in the DB for the existing user
+## SUCCESS PAGE
+### Functionality Requirements
+- [ ] 1 Create link: renders the create page
+- [ ] 2 Logout link: clears the user session, redirects to the login page
+- [ ] 3 User must be logged in to view this page
+- [ ] 4 Only show the edit and delete links if the recipe was created by the logged in user
+- [ ] 5 Delete link: removes the recipe and redirects back to this page
+- [ ] 6 Edit link: renders the edit page for that recipe
+- [ ] 7 View recipe link: renders the recipe details page for that recipe
+## CREATE RECIPE
+### Functionality Requirements
+- [ ] 1 Redirect back to create page to show any errors in form validation
+- [ ] 2 User must be logged in to see this page
+- [ ] 3 Name, description, and instructions must be at least 3 characters
+- [ ] 4 Submit: after creation, redirect to the dashboard
+## EDIT RECIPE
+### Functionality Requirements
+- [ ] 1 Redirect back to edit page and show error messages
+- [ ] 2 User must be logged in to view this page
+- [ ] 3 Same validations as create
+- [ ] 4 Pre-populate the fields
+- [ ] 5 Submit: after update, redirect to recipes dashboard
+## VIEW RECIPE
+### Functionality Requirements
+- [ ] 1 Display recipe selected
+- [ ] 2 User must be logged in to view this page
