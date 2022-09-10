@@ -16,7 +16,7 @@
 - [x] 2 Logout link: clears the user session, redirects to the login page
 - [x] 3 User must be logged in to view this page
 - [x] 4 Only show the edit and delete links if the recipe was created by the logged in user
-- [ ] 5 Delete link: removes the recipe and redirects back to this page
+- [x] 5 Delete link: removes the recipe and redirects back to this page
 - [x] 6 Edit link: renders the edit page for that recipe
 - [x] 7 View recipe link: renders the recipe details page for that recipe
 ## CREATE RECIPE
