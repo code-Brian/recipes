@@ -15,21 +15,19 @@ def r_recipes():
 
     print('rendering recipes page...')
 
-    recipes = recipe.Recipe.get_all()
-
-    return render_template('recipes.html', recipes=recipes)
+    return render_template('recipes.html', recipes=recipe.Recipe.get_all_recipes_with_creator())
 
 @app.route('/recipe/view/<int:id>')
 def r_recipe_view(id): 
     if 'user_id' not in session:
         flash(u'Sorry pal, you are not logged in!', 'login')
-        return redirect('/login')
+        return redirect('/login')   
 
     data = {
         'id': id
     }
 
-    return render_template('recipe_view.html', recipe=recipe.Recipe.get_one(data))
+    return render_template('recipe_view.html', recipe=recipe.Recipe.get_one_recipe_with_creator(data))
 
 @app.route('/recipe/create')
 def r_recipe_create():
@@ -94,12 +92,8 @@ def f_recipe_update():
 
     return redirect('/recipes')
 
-
 @app.route('/recipe/delete/<int:id>')
 def d_recipe_delete(id):
-    if session['user_id'] != 'recipe.user_id':
-        flash(u"Cheeky, aren't we?", 'recipes')
-        return redirect('/recipes')
     if 'user_id' not in session:
         flash(u'Sorry pal, you are not logged in!', 'login')
         return redirect('/login')
@@ -107,5 +101,13 @@ def d_recipe_delete(id):
     data = {
         'id' : id
     }
-    # Recipe.delete(id)
+
+    recipes = recipe.Recipe.get_one(data)
+
+    if session['user_id'] != recipes.user_id:
+        flash(u"Cheeky, aren't we?", 'recipes')
+        return redirect('/recipes')
+
+    recipe.Recipe.delete(data)
+
     return redirect('/recipes')

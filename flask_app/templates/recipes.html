@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ recipe.name }}</td>
                         <td>{{ recipe.under_30 }}</td>
-                        <td>{{ recipe.user_id }}</td>
+                        <td>{{ recipe.creator.first_name|capitalize }}</td>
                         <!-- recipe actions -->
                         <td><a href="/recipe/view/{{ recipe.id }}">View</a></td>
                         {% if session['user_id'] == recipe.user_id %}

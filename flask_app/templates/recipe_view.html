@@ -13,6 +13,7 @@
                 <div class="card mt-3">
                     <div class="card-header">
                         <h2>Recipe: {{ recipe.name }} </h2>
+                        <p>Posted by: {{ recipe.creator.first_name|capitalize }}</p>
                     </div>
                     <div class="card-body">
                         <p>Description: {{ recipe.description }}</p>
