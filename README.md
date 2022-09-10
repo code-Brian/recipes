@@ -12,9 +12,9 @@
     -[x] 1.1 Password must be checked against the hashed password in the DB for the existing user
 ## SUCCESS PAGE
 ### Functionality Requirements
-- [ ] 1 Create link: renders the create page
-- [ ] 2 Logout link: clears the user session, redirects to the login page
-- [ ] 3 User must be logged in to view this page
+- [x] 1 Create link: renders the create page
+- [x] 2 Logout link: clears the user session, redirects to the login page
+- [x] 3 User must be logged in to view this page
 - [ ] 4 Only show the edit and delete links if the recipe was created by the logged in user
 - [ ] 5 Delete link: removes the recipe and redirects back to this page
 - [ ] 6 Edit link: renders the edit page for that recipe
