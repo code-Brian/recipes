@@ -18,6 +18,7 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.user_recipes = []
 
     # STATIC METHODS
 
@@ -112,3 +113,35 @@ class User:
         user = cls(result[0])
 
         return user
+
+    # @classmethod
+    # def get_user_recipes(cls, data:dict) -> list:
+    #     query = '''
+    #     SELECT * FROM posts
+    #     JOIN users ON user_id = users.id
+    #     JOIN recipes ON recipe_id = recipes.id
+    #     WHERE user_id = %(user_id)s;
+    #     '''
+
+    #     results = connectToMySQL('recipes').query_db(query,data)
+
+    #     if results != 0:
+    #         user_post = cls(results[0])
+
+    #         for row in results:
+    #             user_data = {
+    #                 'id' : row.get('users.id'),
+    #                 'first_name' : row.get('users.first_name'),
+    #                 'last_name' : row.get('users.last_name'),
+    #                 'email' : row.get('users.email'),
+    #                 'password' : "Nice try, loser",
+    #                 'created_at' : row.get('users.created_at'),
+    #                 'updated_at' : row.get('users.updated_at')
+    #             }
+
+    #         user_post.user_recipes.append(user.User(user_data))
+
+    #         return user_post
+
+    #     else:
+    #         print('OOOOOPSIIEEE POOOPSIEEEE! EMPTY QUERRRYYYY!')

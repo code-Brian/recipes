@@ -9,18 +9,24 @@
 </head>
 <body class="bg-dark">
     <div class="container bg-light mt-5 px-5 py-5">
-                <h1>Welcome, <!-- {{session['first_name']}} -->!</h1>
+                <h1>Welcome, {{session['first_name']}}!</h1>
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h2>Recipe: { recipe.id }} </h2>
-                        <p><a href="/recipes">Back to Recipes</a></p>
-                        <p><a href="/logout">Logout</a></p>
+                        <h2>Recipe: {{ recipe.name }} </h2>
                     </div>
                     <div class="card-body">
-                        <p>Description: { recipe.description }}</p>
-                        <p>Under 30 Minutes: { recipe.under }}</p>
-                        <p>Instructions: { recipe.instructions }}</p>
-                        <p>Date Made: { recipe.cooked_on }}</p>
+                        <p>Description: {{ recipe.description }}</p>
+                        {% if recipe.under_30 == 0 %}
+                        <p>Under 30 Minutes: No</p>
+                        {% else %}
+                        <p>Under 30 Minutes: Yes</p>
+                        {% endif %}
+                        <p>Instructions: {{ recipe.instructions }}</p>
+                        <p>Date Made: {{ recipe.cooked_date }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <p><a href="/recipes">Back to Recipes</a></p>
+                        <p><a href="/logout">Logout</a></p>
                     </div>
                 </div>
             </div>

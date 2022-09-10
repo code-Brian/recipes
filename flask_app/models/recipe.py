@@ -7,6 +7,7 @@ import re
 class Recipe:
     def __init__ (self,data:dict) -> object:
         self.id = data['id']
+        self.user_id = data['user_id']
         self.name = data['name']
         self.description = data['description']
         self.instructions = data['instructions']
@@ -14,7 +15,66 @@ class Recipe:
         self.under_30 = data['under_30']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.user_recipes = []
+        self.creator = None
+
+    @staticmethod
+    def parse_recipe_data(data:dict) -> dict:
+        '''This method will parse the data from the registration form and return it with a bcrypted password'''
+        parsed_data = {
+            'user_id': data.get('user_id'),
+            'name': data.get('recipe_name'),
+            'description': data.get('recipe_description'),
+            'instructions': data.get('recipe_instructions'),
+            'cooked_date': data.get('recipe_cooked_on'),
+            'under_30': data.get('recipe_under_30'),
+        }
+    
+        return parsed_data
+
+    @staticmethod
+    def parse_recipe_update(data:dict) -> dict:
+        '''This method will parse the data from the registration form and return it with a bcrypted password'''
+        parsed_data = {
+            'user_id': data.get('user_id'),
+            'id': data.get('id'),
+            'name': data.get('recipe_name'),
+            'description': data.get('recipe_description'),
+            'instructions': data.get('recipe_instructions'),
+            'cooked_date': data.get('recipe_cooked_on'),
+            'under_30': data.get('recipe_under_30'),
+        }
+    
+        return parsed_data
+
+    @staticmethod
+    def validate_recipe_data(data:dict) -> dict:
+        is_valid = True
+
+        if data['user_id'] == None:
+            flash(u'Verify that you are signed in', 'recipe')
+            is_valid = False
+
+        if len(data['name']) < 5:
+            flash(u"Name: Can you manage to type 5 characters?", 'recipe')
+            is_valid = False
+
+        if len(data['description']) < 10:
+            flash(u"Description: You can at least do 10 characters, can't you?", 'recipe')
+            is_valid = False
+
+        if len(data['instructions']) < 10:
+            flash(u"Instructions: You can do more than 10 characters, can't you?", 'recipe')
+            is_valid = False
+
+        if len(data['cooked_date']) < 1:
+            flash(u'Date Cooked: You gotta tell me when you made this delicious monstrosity.', 'recipe')
+            is_valid = False
+
+        if data['under_30'] == None:
+            flash(u'Prepped Under 30: At least lie and click one of the buttons!', 'recipe')
+            is_valid = False
+
+        return is_valid
 
     @classmethod
     def get_all(cls:object) -> list:
@@ -27,9 +87,6 @@ class Recipe:
 
         for recipes in results:
             all_recipes.append(cls(recipes))
-        
-        if not all_recipes:
-            return False
         
         return all_recipes
     
@@ -47,43 +104,52 @@ class Recipe:
         return cls(result[0])
 
     @classmethod
-    def add_recipe_post(cls, data:dict) -> None):
+    def add_recipe(cls, data:dict) -> None:
         query = '''
-        INSERT INTO 
-        posts (user_id, recipe_id)
-        VALUES(%(user_id)s, %(recipe_id)s);
+        INSERT INTO
+        recipes ( name, description, instructions, cooked_date, under_30, user_id)
+        VALUES(%(name)s, %(description)s, %(instructions)s, %(cooked_date)s, %(under_30)s, %(user_id)s);
         '''
 
-        return connectToMySQL('recipes').query_db(query,data)
+        return connectToMySQL('recipes').query_db(query, data)
 
     @classmethod
-    def get_recipes_with_user(cls, data:dict) -> list:
+    def update(cls,data:dict) -> None:
+        query ='''
+        UPDATE recipes
+        SET
+        name = %(name)s,
+        description = %(description)s,
+        instructions = %(instructions)s,
+        cooked_date = %(cooked_date)s,
+        under_30 = %(under_30)s
+        WHERE id = %(id)s;
+        '''
+        return connectToMySQL('recipes').query_db(query, data)
+
+    @classmethod
+    def get_all_recipes_with_creator(cls, data:dict) -> list:
         query = '''
         SELECT * FROM posts
-        JOIN users ON user_id = users.id
-        JOIN recipes ON recipe_id = recipes.id
-        WHERE user_id = %(user_id)s;
+        JOIN users ON posts.user_id = %(id)s;
         '''
+        results = connectToMySQL('recipes').query_db(query, data)
+        all_recipes = []
+        for row in results:
+            one_recipe = cls(row)
 
-        results = connectToMySQL('recipes').query_db(query,data)
+            user_info = {
+                'id': row.get('id'),
+                'first_name': row.get('first_name'),
+                'last_name': row.get('last_name'),
+                'email': row.get('email'),
+                'password': row.get('password'),
+                'created_at': row.get('created_at'),
+                'updated_at': row.get('updated_at')
+            }
 
-        if results != 0:
-            user_post = cls(results[0])
+            user = user.User(one_recipe)
+            one_recipe.creator = user
+            all_recipes.append(one_recipe)
 
-            for row in results:
-                user_data = {
-                    'id' : row.get('users.id'),
-                    'first_name' : row.get('users.first_name'),
-                    'last_name' : row.get('users.last_name'),
-                    'email' : row.get('users.email'),
-                    'password' : "Nice try, loser",
-                    'created_at' : row.get('users.created_at'),
-                    'updated_at' : row.get('users.updated_at')
-                }
-
-            user_post.user_recipes.append(user.User(user_data))
-
-            return user_post
-
-        else:
-            print('OOOOOPSIIEEE POOOPSIEEEE! EMPTY QUERRRYYYY!')
+        return all_recipes

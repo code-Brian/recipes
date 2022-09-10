@@ -9,7 +9,18 @@
 </head>
 <body class="bg-dark">
     <div class="container bg-light mt-5 p-5">
-        <h1>Welcome, <!-- {{session['first_name']}} -->!</h1>
+        <h1>Welcome, {{session['first_name']}}!</h1>
+        {% with errors = get_flashed_messages(category_filter=["recipes"]) %}
+        {% if errors %}
+        <div class="container col-10 mt-3 mb-4">
+            <ul class="flashes list-group">
+                {% for msg in errors %}
+                <li class="list-group-item list-group-item-danger"> {{ msg }} </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
         <div class="card">
             <div class="card-header">
                 <h2>All posted recipes:</h2>
@@ -26,19 +37,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    { for recipe in recipes %}
+                    {% for recipe in recipes %}
                     <tr>
-                        <td>{ recipe.name }}</td>
-                    <td>{ recipe.under }}</td>
-                    <td>{ recipe.posted_by }}</td>
-                    <!-- recipe actions -->
-                    <td><a href="/recipe/view/{ recipe.id }}">View</a></td>
-                        { if session['user_id'] = recipe.posted_by %}
-                        <td><a href="/recipe/edit/{ recipe.id }}">Edit</a></td>
-                        <td><a href="/recipe/delete/{ recipe.id }}">Delete</a></td>
+                        <td>{{ recipe.name }}</td>
+                        <td>{{ recipe.under_30 }}</td>
+                        <td>{{ recipe.user_id }}</td>
+                        <!-- recipe actions -->
+                        <td><a href="/recipe/view/{{ recipe.id }}">View</a></td>
+                        {% if session['user_id'] == recipe.user_id %}
+                        <td><a href="/recipe/edit/{{ recipe.id }}">Edit</a></td>
+                        <td><a href="/recipe/delete/{{ recipe.id }}">Delete</a></td>
+                        {% else %}
+                        <td></td>
+                        <td></td>
+                        {% endif %}
                     </tr>
-                    { endif %}
-                    { endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

@@ -40,13 +40,6 @@ def f_user_login():
     }
 
     user_match = user.User.get_user_email(data)
-    print(user_match)
-    if user_match is not False:
-        print(user_match.first_name)
-        print(user_match.email)
-        print(user_match.password)
-    else:
-        print("No user match found")
 
     if not user_match:
         flash(u'Invalid Email/Password', 'login')
