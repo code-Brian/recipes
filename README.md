@@ -9,7 +9,7 @@
 - [x] 4 User must not already exist in the DB
 ### Login Validations
 - [x] 1 Email must already exist in the database
-    -[x] 1.1 Password must be checked against the hashed password in the DB for the existing user
+    - [x] 1.1 Password must be checked against the hashed password in the DB for the existing user
 ## SUCCESS PAGE
 ### Functionality Requirements
 - [x] 1 Create link: renders the create page
