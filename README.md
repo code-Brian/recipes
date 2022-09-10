@@ -3,13 +3,13 @@
 ## ToDo:
 ## LOGIN | REGISTRATION 
 ### Registration Validations
-- [ ] 1 First and Last name must be at least 2 characters
-- [ ] 2 Email must have valid email format
-- [ ] 3 Password and Confirm Password must match
-- [ ] 4 User must not already exist in the DB
+- [x] 1 First and Last name must be at least 2 characters
+- [x] 2 Email must have valid email format
+- [x] 3 Password and Confirm Password must match
+- [x] 4 User must not already exist in the DB
 ### Login Validations
-- [ ] 1 Email must already exist in the database
-    -[ ] 1.1 Password must be checked against the hashed password in the DB for the existing user
+- [x] 1 Email must already exist in the database
+    -[x] 1.1 Password must be checked against the hashed password in the DB for the existing user
 ## SUCCESS PAGE
 ### Functionality Requirements
 - [ ] 1 Create link: renders the create page

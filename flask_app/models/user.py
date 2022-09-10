@@ -1,6 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask_app import app
 from flask import flash
+from flask_bcrypt import Bcrypt
 import re
+
+BCRYPT = Bcrypt(app)
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 PASSWORD_REGEX = re.compile(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
@@ -53,7 +57,7 @@ class User:
         parsed_data = {
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
-            'email': data.get('emai'),
+            'email': data.get('email'),
             'password': BCRYPT.generate_password_hash(data.get('password'))
         }
 
@@ -62,11 +66,11 @@ class User:
     # CLASS METHODS
 
     @classmethod
-    def get_user_email(cls, data:dict):
+    def get_user_email(cls, data:dict) -> object:
         query = '''
         SELECT * FROM users WHERE email = %(email)s;
         '''
-        result = connectToMySQL('login_registration').query_db(query,data)
+        result = connectToMySQL('recipes').query_db(query,data)
         if not result:
             return False
         
@@ -74,12 +78,12 @@ class User:
 
         return user
 
-    def check_password(cls, data):
+    def check_password(cls, data)  -> object:
         query = '''
         SELECT %(email)s FROM users WHERE password = %(password)s;
         '''
 
-        result = connectToMySQL('login_registration').query_db(query, data)
+        result = connectToMySQL('recipes').query_db(query, data)
         if not result:
             return False
 
@@ -88,20 +92,20 @@ class User:
         return user
 
     @classmethod
-    def save(cls, data:dict):
+    def save(cls, data:dict)  -> object:
         query='''
         INSERT INTO users (first_name, last_name, email, password)
         VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s);
         '''
 
-        return connectToMySQL('login_registration').query_db(query, data)
+        return connectToMySQL('recipes').query_db(query, data)
     
     @classmethod
-    def get_user_by_id(cls, data:dict):
+    def get_user_by_id(cls, data:dict)  -> object:
         query='''
         SELECT * FROM users WHERE users.id = %(id)s;
         '''
-        result = connectToMySQL('login_registration').query_db(query, data)
+        result = connectToMySQL('recipes').query_db(query, data)
         if not result:
             return False
         
